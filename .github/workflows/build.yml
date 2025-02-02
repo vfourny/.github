@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        type: string
+        default: '20.x'
+      is_build:
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/pacakge-lock.json') }}
+
+      - name: Check format
+        run: npm run format
+
+      - name: Check linter
+        run: npm run lint
+
+      - name: Check types
+        if: ${{ inputs.is_build }}
+        run: npm run type-check
+
+      - name: Build
+        if: ${{ inputs.is_build }}
+        run: npm run build
+
+      - name: 'Upload build artifact'
+        if: ${{ inputs.is_build }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist

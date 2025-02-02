@@ -1,0 +1,31 @@
+---
+name: Technical Debt
+description: Suggest an idea to update technical debt
+title: "[Tehnical-Debt]: "
+labels: ["technical debt"]
+assignees:
+  - Seyrinian
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A clear and concise description of the feature you're interested in.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Suggested Solution
+      description: |
+        Describe the solution you'd like. A clear and concise description of what you want to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context about the problem here.
+    validations:
+      required: false

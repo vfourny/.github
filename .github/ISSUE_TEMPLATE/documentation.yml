@@ -1,0 +1,23 @@
+---
+name: Documentation Request
+description: Suggest an idea to add documentations
+title: "[Docs]: "
+labels: ["documentation"]
+assignees:
+  - Seyrinian
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A clear and concise description of the documentation you're interested in.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context about the problem here.
+    validations:
+      required: false

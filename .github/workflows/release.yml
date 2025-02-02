@@ -1,0 +1,69 @@
+name: Automatic Release
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        type: string
+        default: "20.x"
+      is_build:
+        type: boolean
+        default: true
+      is_publish:
+        type: boolean
+        default: false
+    secrets:
+      SEMANTIC_BOT_APP_ID:
+        required: true
+      SEMANTIC_BOT_PRIVATE_KEY:
+        required: true
+      NPM_TOKEN:
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.SEMANTIC_BOT_APP_ID }}
+          private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
+
+      - name: Checking out code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          token: ${{ steps.generate_token.outputs.token }}
+
+      - name: Setting up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+
+      - name: Restore node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-
+
+      - name: Upload previous build artifact
+        if: ${{ inputs.is_build }}
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Release and publish
+        run: npx semantic-release
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PUBLISH: ${{ inputs.is_publish }}
