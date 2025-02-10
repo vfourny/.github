@@ -38,6 +38,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ steps.generate_token.outputs.token }}
+          approvers: ${{ github.actor }}
           minimum-approvals: 1
 
       - name: Checking out code
