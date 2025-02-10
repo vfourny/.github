@@ -2,11 +2,10 @@ name: Deploy on Railway
 
 on:
   workflow_call:
-    inputs:
-      railway_deploy_token:
-        type: string
     secrets:
       RAILWAY_SERVICE_ID:
+        required: true
+      RAILWAY_DEPLOY_TOKEN:
         required: true
 
 jobs:
@@ -25,4 +24,4 @@ jobs:
       - name: Deploy to Railway
         run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
         env:
-          RAILWAY_TOKEN: ${{ inputs.railway_deploy_token }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_DEPLOY_TOKEN }}
