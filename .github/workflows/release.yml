@@ -33,13 +33,6 @@ jobs:
         with:
           app-id: ${{ secrets.SEMANTIC_BOT_APP_ID }}
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
-          
-      - name: Wait for approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ steps.generate_token.outputs.token }}
-          approvers: vfourny
-          minimum-approvals: 1
 
       - name: Checking out code
         uses: actions/checkout@v4
