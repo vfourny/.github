@@ -23,7 +23,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
+    permissions:  
+      issues: write
       contents: write
       packages: write
     steps:
@@ -33,6 +34,17 @@ jobs:
         with:
           app-id: ${{ secrets.SEMANTIC_BOT_APP_ID }}
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
+
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: vfourny
+          minimum-approvals: 1
+          issue-title: "Deploying v1.3.5 to prod from staging"
+          issue-body: "Please approve or deny the deployment of version v1.3.5."
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: ''
+          additional-denied-words: ''
 
       - name: Checking out code
         uses: actions/checkout@v4
