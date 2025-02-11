@@ -2,6 +2,10 @@ name: Deploy on Railway
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
     secrets:
       RAILWAY_SERVICE_ID:
         required: true
@@ -11,6 +15,7 @@ on:
 jobs:
   deploy_railway:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     permissions:
       contents: write
       packages: write
