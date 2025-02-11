@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy_railway:
-    name: ' '
+    name: 'railway'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     permissions:
