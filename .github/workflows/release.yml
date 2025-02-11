@@ -12,6 +12,9 @@ on:
       is_publish:
         type: boolean
         default: false
+      environment:
+        type: string
+        required: true
     secrets:
       SEMANTIC_BOT_APP_ID:
         required: true
@@ -23,6 +26,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     permissions:  
       issues: write
       contents: write
