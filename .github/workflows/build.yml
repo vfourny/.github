@@ -9,10 +9,14 @@ on:
       is_build:
         type: boolean
         default: true
+      environment:
+        type: string
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
