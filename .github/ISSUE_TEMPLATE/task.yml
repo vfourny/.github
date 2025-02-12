@@ -2,6 +2,8 @@ name: "Task"
 description: "Créer une tâche simple liée à une User Story"
 title: "[Task] - "
 type: task
+assignees:
+  - vfourny
 body:
   - type: textarea
     id: description
@@ -18,27 +20,3 @@ body:
       label: "User Story associée"
       description: "Référence de la User Story liée."
       placeholder: "#123"
-
-  - type: input
-    id: assignee
-    attributes:
-      label: "Assigné à"
-      description: "Qui est responsable de cette tâche ?"
-      placeholder: "@nom_utilisateur"
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: "Priorité"
-      description: "Définissez la priorité de la tâche."
-      options:
-        - Haute
-        - Moyenne
-        - Basse
-
-  - type: input
-    id: deadline
-    attributes:
-      label: "Date limite"
-      description: "Indiquez une date limite si applicable."
-      placeholder: "YYYY-MM-DD"
