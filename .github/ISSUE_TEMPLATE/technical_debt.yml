@@ -4,7 +4,7 @@ description: Suggest an idea to update technical debt
 title: "[Tehnical-Debt]: "
 labels: ["technical debt"]
 assignees:
-  - Seyrinian
+  - vfourny
 body:
   - type: textarea
     attributes:
@@ -20,7 +20,7 @@ body:
       description: |
         Describe the solution you'd like. A clear and concise description of what you want to happen.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
