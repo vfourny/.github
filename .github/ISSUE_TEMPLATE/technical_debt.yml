@@ -2,7 +2,7 @@
 name: Technical Debt
 description: Suggest an idea to update technical debt
 title: "[Tehnical-Debt]: "
-labels: ["technical debt"]
+type: Technical Debt
 assignees:
   - vfourny
 body:
