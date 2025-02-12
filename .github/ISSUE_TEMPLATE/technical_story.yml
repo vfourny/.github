@@ -1,0 +1,34 @@
+name: "Technical Story"
+description: "Décrire un besoin technique à implémenter"
+title: "[Tech Story] - "
+type: technical story
+assignees:
+  - vfourny
+body:
+  - type: textarea
+    id: contexte
+    attributes:
+      label: "Contexte"
+      description: "Expliquez pourquoi cette Technical Story est nécessaire et quel problème elle résout."
+      placeholder: "Ex: Optimiser les requêtes SQL pour améliorer la performance de l'API."
+    validations:
+      required: true
+
+  - type: textarea
+    id: objectifs
+    attributes:
+      label: "Objectifs"
+      description: "Décrivez ce que cette technical story doit accomplir."
+      placeholder: |
+        - Améliorer la scalabilité du service X
+        - Refactoriser le module Y pour réduire la dette technique
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Approche technique"
+      description: "Décrivez la solution envisagée ou les options possibles."
+      placeholder: "Ex: Mettre en place une indexation sur la base de données pour accélérer les requêtes."
+  
