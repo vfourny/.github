@@ -1,0 +1,60 @@
+name: "User Story"
+description: "Décrire une nouvelle fonctionnalité ou amélioration"
+title: "[User Story] - "
+type: User Story
+body:
+  - type: markdown
+    attributes:
+      value: "## 🎯 Contexte"
+  - type: textarea
+    id: contexte
+    attributes:
+      label: "Contexte"
+      description: "Expliquez le besoin métier et pourquoi cette user story est nécessaire."
+      placeholder: "En tant que [utilisateur/persona], je veux [objectif] afin de [bénéfice]"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## ✅ Critères d'acceptation"
+  - type: textarea
+    id: criteres
+    attributes:
+      label: "Critères d'acceptation"
+      description: "Listez les critères qui définissent si cette user story est terminée."
+      placeholder: |
+        - [ ] Critère 1
+        - [ ] Critère 2
+        - [ ] Critère 3
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## 📋 Tâches"
+  - type: textarea
+    id: tasks
+    attributes:
+      label: "Tâches associées"
+      description: "Décomposez la user story en tâches actionnables."
+      placeholder: |
+        - [ ] Tâche 1
+        - [ ] Tâche 2
+        - [ ] Tâche 3
+
+  - type: markdown
+    attributes:
+      value: "## 🏁 Informations supplémentaires"
+  - type: input
+    id: priority
+    attributes:
+      label: "Priorité"
+      description: "Définissez la priorité de cette user story (Haute, Moyenne, Basse)."
+      placeholder: "Haute"
+  - type: input
+    id: deadline
+    attributes:
+      label: "Date limite"
+      description: "Indiquez une date limite si applicable (YYYY-MM-DD)."
+      placeholder: "2025-03-15"
