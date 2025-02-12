@@ -2,6 +2,8 @@ name: "User Story"
 description: "Décrire une nouvelle fonctionnalité ou amélioration"
 title: "[User Story] - "
 type: User Story
+assignees:
+  - vfourny
 body:
   - type: markdown
     attributes:
@@ -27,8 +29,6 @@ body:
         - [ ] Critère 1
         - [ ] Critère 2
         - [ ] Critère 3
-    validations:
-      required: true
 
   - type: markdown
     attributes:
