@@ -4,7 +4,7 @@ description: Suggest an idea to add documentations
 title: "[Docs]: "
 labels: ["documentation"]
 assignees:
-  - Seyrinian
+  - vfourny
 body:
   - type: textarea
     attributes:
