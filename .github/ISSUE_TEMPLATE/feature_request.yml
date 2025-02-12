@@ -1,41 +1,44 @@
----
-name: Feature Request
-description: Suggest an idea to help us improve
-title: "[Feature]: "
-type: feature
-labels: ["feature"]
-assignees:
-  - vfourny
+name: "Task"
+description: "Créer une tâche simple liée à une User Story"
+title: "[Task] - "
+type: task
 body:
   - type: textarea
+    id: description
     attributes:
-      label: Description
-      description: |
-        A clear and concise description of the feature you're interested in.
+      label: "Description"
+      description: "Décrivez brièvement la tâche à accomplir."
+      placeholder: "Ex: Implémenter la validation du formulaire"
     validations:
       required: true
 
-  - type: textarea
+  - type: input
+    id: us
     attributes:
-      label: Suggested Solution
-      description: |
-        Describe the solution you'd like. A clear and concise description of what you want to happen.
-    validations:
-      required: false
+      label: "User Story associée"
+      description: "Référence de la User Story liée."
+      placeholder: "#123"
 
-  - type: textarea
+  - type: input
+    id: assignee
     attributes:
-      label: Alternatives
-      description: |
-        Describe alternatives you've considered.
-        A clear and concise description of any alternative solutions or features you've considered.
-    validations:
-      required: false
+      label: "Assigné à"
+      description: "Qui est responsable de cette tâche ?"
+      placeholder: "@nom_utilisateur"
 
-  - type: textarea
+  - type: dropdown
+    id: priority
     attributes:
-      label: Additional Context
-      description: |
-        Add any other context about the problem here.
-    validations:
-      required: false
+      label: "Priorité"
+      description: "Définissez la priorité de la tâche."
+      options:
+        - Haute
+        - Moyenne
+        - Basse
+
+  - type: input
+    id: deadline
+    attributes:
+      label: "Date limite"
+      description: "Indiquez une date limite si applicable."
+      placeholder: "YYYY-MM-DD"
