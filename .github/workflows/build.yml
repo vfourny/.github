@@ -9,6 +9,12 @@ on:
       is_build:
         type: boolean
         default: true
+      is_type_checked:
+        type: boolean
+        default: true
+      is_tested:
+        type: boolean
+        default: true
 
 jobs:
   build:
@@ -32,8 +38,12 @@ jobs:
         run: npm run lint
 
       - name: Check types
-        if: ${{ inputs.is_build }}
+        if: ${{ inputs.is_build && inputs.is_type_checked }}
         run: npm run type-check
+
+      - name: Check Tests
+        if: ${{ inputs.is_tested }}
+        run: npm run test
 
       - name: Build
         if: ${{ inputs.is_build }}
