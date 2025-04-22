@@ -1,18 +1,18 @@
 {
-  "extends": ["config:recommended"],
-  "prConcurrentLimit": 3,
+  "extends": ["config:recommended"], // Utilise la configuration recommandée par défaut de Renovate
+  "prConcurrentLimit": 3, // Limite le nombre de pull requests ouvertes simultanément à 3
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "minor/patch updates",
-      "automerge": false,
-      "automergeSchedule": ["* 0-3 1 * *"],
-      "minimumReleaseAge": "7 days"
+      "matchUpdateTypes": ["minor", "patch"], // S'applique aux mises à jour mineures et de correctifs
+      "groupName": "minor/patch updates", // Regroupe toutes ces mises à jour dans une seule PR
+      "automerge": false, // Désactive la fusion automatique pour ces mises à jour
+      "automergeSchedule": ["* 0-3 1 *"], // Fusions potentielles entre minuit et 3h du matin le 1er du mois
+      "minimumReleaseAge": "30 days" // Attend 30 jours après publication avant de créer une PR
     },
     {
-      "matchUpdateTypes": ["major"],
-      "automerge": false,
-      "minimumReleaseAge": "7 days"
+      "matchUpdateTypes": ["major"], // S'applique uniquement aux mises à jour majeures
+      "automerge": false, // Désactive la fusion automatique pour les mises à jour majeures
+      "minimumReleaseAge": "30 days" // Attend 30 jours après publication d'une mise à jour majeure
     }
   ]
 }
