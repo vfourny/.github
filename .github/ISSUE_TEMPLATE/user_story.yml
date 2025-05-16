@@ -1,7 +1,6 @@
 name: "User Story"
 description: "Décrire une nouvelle fonctionnalité ou amélioration"
 title: "[User Story] - "
-type: User Story
 assignees:
   - vfourny
 body:

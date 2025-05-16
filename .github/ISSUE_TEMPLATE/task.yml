@@ -1,7 +1,6 @@
 name: "Task"
 description: "Créer une tâche simple liée à une User Story"
 title: "[Task] - "
-type: task
 assignees:
   - vfourny
 body:
