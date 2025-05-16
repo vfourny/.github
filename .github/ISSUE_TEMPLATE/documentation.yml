@@ -2,7 +2,6 @@
 name: Documentation Request
 description: Suggest an idea to add documentations
 title: "[Docs]: "
-type: Documentation
 assignees:
   - vfourny
 body:
