@@ -1,6 +1,9 @@
 name: "User Story"
 description: "Décrire une nouvelle fonctionnalité ou amélioration"
 title: "[User Story] - "
+custom-fields:
+  - name: "Type"
+    value: "Bug"
 assignees:
   - vfourny
 body:
