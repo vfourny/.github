@@ -1,6 +1,6 @@
 name: "Technical Story"
 description: "Décrire un besoin technique à implémenter"
-title: "[Tech Story] - "
+title: "[TS] - "
 assignees:
   - vfourny
 body:
