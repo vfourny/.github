@@ -70,9 +70,9 @@ body:
     validations:
       required: false
   - type: textarea
-    id: ♿ accessibility
+    id: accessibility
     attributes:
-      label: "Considérations d'accessibilité"
+      label: "♿ Considérations d'accessibilité"
       description: "Spécifiez les exigences d'accessibilité particulières."
       placeholder: |
         - [ ] Respect des standards WCAG 2.1 AA
