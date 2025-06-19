@@ -39,17 +39,20 @@ body:
       placeholder: "Informations complémentaires sur le besoin métier, contraintes particulières..."
     validations:
       required: false
+   - type: markdown
+    attributes:
+      value: "## 📊 Règles de gestion"
   - type: textarea
     id: business_rules
     attributes:
-      label: "## 📊 Règles de gestion"
+      label: "📊 Règles de gestion"
       description: "Définissez les règles métier qui encadrent cette fonctionnalité."
       value: |
-        | Règle | Description | 
-        |-------|-------------|
-        | RG001 | Description de la première règle de gestion |
-        | RG002 | Description de la deuxième règle de gestion |
-        | RG003 | Description de la troisième règle de gestion |
+        | Règle | Description | Testé |
+        |-------|-------------| -------|
+        | RG001 | Description de la première règle de gestion | [ ] |
+        | RG002 | Description de la deuxième règle de gestion | [ ] |
+        | RG003 | Description de la troisième règle de gestion | [ ] |
     validations:
       required: true
   - type: markdown
@@ -58,7 +61,7 @@ body:
   - type: textarea
     id: accessibility_design
     attributes:
-      label: "Considérations de design"
+      label: "🎨 Considérations de design"
       description: "Spécifiez les exigences de design particulières."
       placeholder: |
         - [ ] Responsive design
@@ -67,7 +70,7 @@ body:
     validations:
       required: false
   - type: textarea
-    id: accessibility
+    id: ♿ accessibility
     attributes:
       label: "Considérations d'accessibilité"
       description: "Spécifiez les exigences d'accessibilité particulières."
@@ -83,7 +86,7 @@ body:
   - type: textarea
     id: tasks
     attributes:
-      label: "Tâches associées"
+      label: "📋 Tâches associées"
       description: "Décomposez la user story en tâches actionnables."
       placeholder: |
         - [ ] Tâche 1 : Analyse technique
@@ -93,4 +96,4 @@ body:
         - [ ] Tâche 5 : Tests d'intégration
         - [ ] Tâche 6 : Documentation
     validations:
-      required: true
+      required: false
