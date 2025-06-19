@@ -48,11 +48,11 @@ body:
       label: "📊 Règles de gestion"
       description: "Définissez les règles métier qui encadrent cette fonctionnalité."
       value: |
-        | Règle | Description | Testé |
-        |-------|-------------| -------|
-        | RG001 | Description de la première règle de gestion | [ ] |
-        | RG002 | Description de la deuxième règle de gestion | [ ] |
-        | RG003 | Description de la troisième règle de gestion | [ ] |
+        | Règle | Description | 
+        |-------|-------------|
+        | RG001 | Description de la première règle de gestion |
+        | RG002 | Description de la deuxième règle de gestion |
+        | RG003 | Description de la troisième règle de gestion |
     validations:
       required: true
   - type: markdown
