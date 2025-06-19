@@ -11,11 +11,31 @@ body:
     id: contexte
     attributes:
       label: "Contexte"
-      description: "Expliquez le besoin métier et pourquoi cette user story est nécessaire."
-      placeholder: "En tant que [utilisateur/persona], je veux [objectif] afin de [bénéfice]"
+      description: "Expliquez le besoin métier et pourquoi cette user story est nécessaire. Les trois éléments suivants sont obligatoires."
+      placeholder: |
+        **En tant que** [utilisateur/persona]
+        **Je veux** [objectif/fonctionnalité souhaitée]
+        **Afin de** [bénéfice/valeur apportée]
+        
+        [Contexte additionnel si nécessaire]
     validations:
       required: true
-
+  - type: markdown
+    attributes:
+      value: "## 📊 Règles de gestion"
+  - type: textarea
+    id: regles_gestion
+    attributes:
+      label: "Règles de gestion"
+      description: "Définissez les règles métier qui encadrent cette fonctionnalité."
+      placeholder: |
+        | Règle | Description |
+        |-------|-------------|
+        | RG001 | Description de la première règle de gestion |
+        | RG002 | Description de la deuxième règle de gestion |
+        | RG003 | Description de la troisième règle de gestion |
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: "## ✅ Critères d'acceptation"
@@ -28,7 +48,28 @@ body:
         - [ ] Critère 1
         - [ ] Critère 2
         - [ ] Critère 3
-
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "## 🎨 Accessibilité et Design (optionnel)"
+  - type: textarea
+    id: accessibilite_design
+    attributes:
+      label: "Considérations d'accessibilité et de design"
+      description: "Spécifiez les exigences d'accessibilité et les considérations de design particulières."
+      placeholder: |
+        **Accessibilité :**
+        - [ ] Respect des standards WCAG 2.1 AA
+        - [ ] Navigation au clavier
+        - [ ] Contraste suffisant
+        
+        **Design :**
+        - [ ] Responsive design
+        - [ ] Cohérence avec le design system
+        - [ ] Maquettes/wireframes disponibles
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: "## 📋 Tâches"
@@ -38,6 +79,11 @@ body:
       label: "Tâches associées"
       description: "Décomposez la user story en tâches actionnables."
       placeholder: |
-        - [ ] Tâche 1
-        - [ ] Tâche 2
-        - [ ] Tâche 3
+        - [ ] Tâche 1 : Analyse technique
+        - [ ] Tâche 2 : Développement frontend
+        - [ ] Tâche 3 : Développement backend
+        - [ ] Tâche 4 : Tests unitaires
+        - [ ] Tâche 5 : Tests d'intégration
+        - [ ] Tâche 6 : Documentation
+    validations:
+      required: true
