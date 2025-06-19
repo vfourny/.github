@@ -7,67 +7,74 @@ body:
   - type: markdown
     attributes:
       value: "## 🎯 Contexte"
-  - type: textarea
-    id: contexte
+  - type: input
+    id: as_a
     attributes:
-      label: "Contexte"
-      description: "Expliquez le besoin métier et pourquoi cette user story est nécessaire. Les trois éléments suivants sont obligatoires."
-      placeholder: |
-        **En tant que** [utilisateur/persona]
-        **Je veux** [objectif/fonctionnalité souhaitée]
-        **Afin de** [bénéfice/valeur apportée]
-        
-        [Contexte additionnel si nécessaire]
+      label: "En tant que"
+      description: "Définissez l'utilisateur ou le persona concerné"
+      placeholder: "utilisateur, administrateur, client, développeur..."
     validations:
       required: true
-  - type: markdown
+  - type: input
+    id: i_want
     attributes:
-      value: "## 📊 Règles de gestion"
+      label: "Je veux"
+      description: "Décrivez l'objectif ou la fonctionnalité souhaitée"
+      placeholder: "pouvoir créer un compte, visualiser mes données, recevoir des notifications..."
+    validations:
+      required: true
+  - type: input
+    id: so_that
+    attributes:
+      label: "Afin de"
+      description: "Expliquez le bénéfice ou la valeur apportée"
+      placeholder: "améliorer mon expérience, gagner du temps, sécuriser mes informations..."
+    validations:
+      required: true
   - type: textarea
-    id: regles_gestion
+    id: additional_context
     attributes:
-      label: "Règles de gestion"
+      label: "Contexte additionnel"
+      description: "Ajoutez du contexte supplémentaire si nécessaire"
+      placeholder: "Informations complémentaires sur le besoin métier, contraintes particulières..."
+    validations:
+      required: false
+  - type: textarea
+    id: business_rules
+    attributes:
+      label: "## 📊 Règles de gestion"
       description: "Définissez les règles métier qui encadrent cette fonctionnalité."
-      placeholder: |
-        | Règle | Description |
+      value: |
+        | Règle | Description | 
         |-------|-------------|
         | RG001 | Description de la première règle de gestion |
         | RG002 | Description de la deuxième règle de gestion |
         | RG003 | Description de la troisième règle de gestion |
     validations:
-      required: false
-  - type: markdown
-    attributes:
-      value: "## ✅ Critères d'acceptation"
-  - type: textarea
-    id: criteres
-    attributes:
-      label: "Critères d'acceptation"
-      description: "Listez les critères qui définissent si cette user story est terminée."
-      placeholder: |
-        - [ ] Critère 1
-        - [ ] Critère 2
-        - [ ] Critère 3
-    validations:
       required: true
   - type: markdown
     attributes:
-      value: "## 🎨 Accessibilité et Design (optionnel)"
+      value: "## 🎨 Design et Accessiblité"
   - type: textarea
-    id: accessibilite_design
+    id: accessibility_design
     attributes:
-      label: "Considérations d'accessibilité et de design"
-      description: "Spécifiez les exigences d'accessibilité et les considérations de design particulières."
+      label: "Considérations de design"
+      description: "Spécifiez les exigences de design particulières."
       placeholder: |
-        **Accessibilité :**
-        - [ ] Respect des standards WCAG 2.1 AA
-        - [ ] Navigation au clavier
-        - [ ] Contraste suffisant
-        
-        **Design :**
         - [ ] Responsive design
         - [ ] Cohérence avec le design system
         - [ ] Maquettes/wireframes disponibles
+    validations:
+      required: false
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: "Considérations d'accessibilité"
+      description: "Spécifiez les exigences d'accessibilité particulières."
+      placeholder: |
+        - [ ] Respect des standards WCAG 2.1 AA
+        - [ ] Navigation au clavier
+        - [ ] Contraste suffisant
     validations:
       required: false
   - type: markdown
