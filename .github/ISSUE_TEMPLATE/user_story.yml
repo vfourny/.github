@@ -39,7 +39,7 @@ body:
       placeholder: "Informations complémentaires sur le besoin métier, contraintes particulières..."
     validations:
       required: false
-   - type: markdown
+  - type: markdown
     attributes:
       value: "## 📊 Règles de gestion"
   - type: textarea
