@@ -9,6 +9,9 @@ on:
       is_build:
         type: boolean
         default: true
+      is_build_upload:
+        type: boolean
+        default: true
       is_type_checked:
         type: boolean
         default: true
@@ -50,7 +53,7 @@ jobs:
         run: npm run build
 
       - name: 'Upload build artifact'
-        if: ${{ inputs.is_build }}
+        if: ${{ inputs.is_build && inputs.is_build_upload }}
         uses: actions/upload-artifact@v4
         with:
           name: dist
