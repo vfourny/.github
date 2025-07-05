@@ -30,6 +30,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
+          
+      - name: Fix permissions
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+          chmod -R 755 $GITHUB_WORKSPACE
 
       - name: Install dependencies
         run: npm ci
