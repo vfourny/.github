@@ -45,7 +45,7 @@ body:
   - type: textarea
     id: business_rules
     attributes:
-      label: "📊 Règles de gestion"
+      label: "Règles de gestion"
       description: "Définissez les règles métier qui encadrent cette fonctionnalité."
       value: |
         | Règle | Description | 
@@ -57,16 +57,27 @@ body:
       required: true
   - type: markdown
     attributes:
-      value: "## 🎨 Design et Accessiblité"
+      value: "##  Considérations"
   - type: textarea
-    id: accessibility_design
+    id: design
     attributes:
-      label: "🎨 Considérations de design"
+      label: Considérations de design"
       description: "Spécifiez les exigences de design particulières."
       placeholder: |
         - [ ] Responsive design
         - [ ] Cohérence avec le design system
         - [ ] Maquettes/wireframes disponibles
+    validations:
+      required: false
+   - type: textarea
+    id: technical
+    attributes:
+      label: Considérations technique"
+      description: "Spécifiez les exigences de design particulières."
+      placeholder: |
+        - [ ] Implémentatin dans la base
+        - [ ] Framework et library envisagé
+        - [ ] Problématiques sécurité
     validations:
       required: false
   - type: textarea
