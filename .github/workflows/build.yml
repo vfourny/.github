@@ -59,7 +59,7 @@ jobs:
 
       - name: 'Upload build artifact'
         if: ${{ inputs.is_build && inputs.is_build_upload }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist
