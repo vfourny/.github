@@ -42,7 +42,7 @@ jobs:
 
       - name: Check types
         if: ${{ inputs.is_build && inputs.is_type_checked }}
-        run: npm run type-check
+        run: npm run ts:check
 
       - name: Check Tests
         if: ${{ inputs.is_tested }}
