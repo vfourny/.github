@@ -34,7 +34,7 @@ jobs:
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
 
       - name: Checking out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
           token: ${{ steps.generate_token.outputs.token }}
