@@ -1,34 +1,23 @@
 {
   "extends": ["config:recommended"],
-  "prConcurrentLimit": 3,
-  "prHourlyLimit": 2,
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 5,
   "dependencyDashboard": true,
+  "schedule": ["before 3am every monday"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "minor/patch updates",
-      "automerge": true
+      "automerge": true,
+      "groupName": "minor & patch"
     },
     {
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "minimumReleaseAgeDays": 30
+      "minimumReleaseAgeDays": 14
     },
     {
       "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "dev deps (minor/patch)",
-      "automerge": true
-    },
-    {
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "dev deps (major)",
-      "automerge": false
-    },
-    {
-      "matchDatasources": ["npm"],
-      "groupName": "security updates"
+      "minimumReleaseAgeDays": 7
     }
   ],
   "lockFileMaintenance": {
