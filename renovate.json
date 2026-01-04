@@ -1,21 +1,18 @@
 {
   "extends": ["config:recommended"],
-
   "prConcurrentLimit": 3,
   "prHourlyLimit": 2,
   "dependencyDashboard": true,
-
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "minor/patch updates",
-      "automerge": true,
-      "automergeSchedule": ["0 0-3 * * *"]
+      "automerge": true
     },
     {
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "minimumReleaseAge": "30 days"
+      "minimumReleaseAgeDays": 30
     },
     {
       "matchDepTypes": ["devDependencies"],
@@ -30,17 +27,14 @@
       "automerge": false
     },
     {
-      "matchConfidence": "high",
-      "labels": ["security"],
+      "matchDatasources": ["npm"],
       "groupName": "security updates"
     }
   ],
-
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
     "schedule": ["0 1 * * 1"]
   },
-
   "commitMessagePrefix": "chore(deps): "
 }
