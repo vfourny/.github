@@ -50,7 +50,7 @@ jobs:
 
       - name: Upload previous build artifact
         if: ${{ inputs.is_build }}
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
