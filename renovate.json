@@ -20,12 +20,14 @@
       "matchDepTypes": ["dependencies"],
       "matchUpdateTypes": ["minor"],
       "groupName": "minor updates",
-      "automerge": false
+      "automerge": false,
+      "reviewers": ["vfourny"]
     },
     {
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "minimumReleaseAge": "30 days"
+      "minimumReleaseAge": "30 days",
+      "reviewers": ["vfourny"]
     }
   ]
 }
