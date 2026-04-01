@@ -38,7 +38,16 @@ jobs:
         run: npm ci
 
       - name: Check format
-        run: npm run format
+        run: npm run format:check
+
+      - name: Fix permissions
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+          chmod -R 755 $GITHUB_WORKSPACE
+
+      - name: Build
+        if: ${{ inputs.is_build }}
+        run: npm run build
 
       - name: Check linter
         run: npm run lint
@@ -50,15 +59,6 @@ jobs:
       - name: Check Tests
         if: ${{ inputs.is_tested }}
         run: npm run test
-
-      - name: Fix permissions
-        run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          chmod -R 755 $GITHUB_WORKSPACE
-
-      - name: Build
-        if: ${{ inputs.is_build }}
-        run: npm run build
 
       - name: Validate PR title with commitlint
         if: ${{ inputs.is_pr_title_checked }}
