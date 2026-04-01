@@ -18,6 +18,9 @@ on:
       is_tested:
         type: boolean
         default: true
+      is_pr_title_checked:
+        type: boolean
+        default: true
 
 jobs:
   build:
@@ -56,6 +59,10 @@ jobs:
       - name: Build
         if: ${{ inputs.is_build }}
         run: npm run build
+
+      - name: Validate PR title with commitlint
+        if: ${{ inputs.is_pr_title_checked }}
+        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
 
       - name: 'Upload build artifact'
         if: ${{ inputs.is_build && inputs.is_build_upload }}
