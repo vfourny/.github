@@ -1,110 +1,56 @@
 name: "User Story"
-description: "Décrire une nouvelle fonctionnalité ou amélioration"
+description: "Describe a new feature or improvement from a user perspective."
 title: "[US] - "
 assignees:
   - vfourny
 body:
   - type: markdown
     attributes:
-      value: "## 🎯 Contexte"
+      value: "## 🎯 User Story"
+
   - type: input
     id: as_a
     attributes:
-      label: "En tant que"
-      description: "Définissez l'utilisateur ou le persona concerné"
-      placeholder: "utilisateur, administrateur, client, développeur..."
+      label: "As a"
+      description: "Who is this story for?"
+      placeholder: "user, admin, developer..."
     validations:
       required: true
+
   - type: input
     id: i_want
     attributes:
-      label: "Je veux"
-      description: "Décrivez l'objectif ou la fonctionnalité souhaitée"
-      placeholder: "pouvoir créer un compte, visualiser mes données, recevoir des notifications..."
+      label: "I want"
+      description: "What is the goal or feature?"
+      placeholder: "to create an account, view my dashboard, receive notifications..."
     validations:
       required: true
+
   - type: input
     id: so_that
     attributes:
-      label: "Afin de"
-      description: "Expliquez le bénéfice ou la valeur apportée"
-      placeholder: "améliorer mon expérience, gagner du temps, sécuriser mes informations..."
+      label: "So that"
+      description: "What value does this deliver?"
+      placeholder: "I can save time, secure my data, improve my experience..."
     validations:
       required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "Acceptance criteria"
+      description: "List the conditions that must be met for this story to be considered done."
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+
   - type: textarea
     id: additional_context
     attributes:
-      label: "Contexte additionnel"
-      description: "Ajoutez du contexte supplémentaire si nécessaire"
-      placeholder: "Informations complémentaires sur le besoin métier, contraintes particulières..."
-    validations:
-      required: false
-  - type: markdown
-    attributes:
-      value: "## 📊 Règles de gestion"
-  - type: textarea
-    id: business_rules
-    attributes:
-      label: "Règles de gestion"
-      description: "Définissez les règles métier qui encadrent cette fonctionnalité."
-      value: |
-        | Règle | Description | 
-        |-------|-------------|
-        | RG001 | Description de la première règle de gestion |
-        | RG002 | Description de la deuxième règle de gestion |
-        | RG003 | Description de la troisième règle de gestion |
-    validations:
-      required: true
-  - type: markdown
-    attributes:
-      value: "##  Considérations"
-  - type: textarea
-    id: design
-    attributes:
-      label: Considérations de design"
-      description: "Spécifiez les exigences de design particulières."
-      placeholder: |
-        - [ ] Responsive design
-        - [ ] Cohérence avec le design system
-        - [ ] Maquettes/wireframes disponibles
-    validations:
-      required: false
-   - type: textarea
-    id: technical
-    attributes:
-      label: Considérations technique"
-      description: "Spécifiez les exigences de design particulières."
-      placeholder: |
-        - [ ] Implémentatin dans la base
-        - [ ] Framework et library envisagé
-        - [ ] Problématiques sécurité
-    validations:
-      required: false
-  - type: textarea
-    id: accessibility
-    attributes:
-      label: "♿ Considérations d'accessibilité"
-      description: "Spécifiez les exigences d'accessibilité particulières."
-      placeholder: |
-        - [ ] Respect des standards WCAG 2.1 AA
-        - [ ] Navigation au clavier
-        - [ ] Contraste suffisant
-    validations:
-      required: false
-  - type: markdown
-    attributes:
-      value: "## 📋 Tâches"
-  - type: textarea
-    id: tasks
-    attributes:
-      label: "📋 Tâches associées"
-      description: "Décomposez la user story en tâches actionnables."
-      placeholder: |
-        - [ ] Tâche 1 : Analyse technique
-        - [ ] Tâche 2 : Développement frontend
-        - [ ] Tâche 3 : Développement backend
-        - [ ] Tâche 4 : Tests unitaires
-        - [ ] Tâche 5 : Tests d'intégration
-        - [ ] Tâche 6 : Documentation
+      label: "Additional context"
+      description: "Any extra information, constraints, or references."
     validations:
       required: false
