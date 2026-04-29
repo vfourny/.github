@@ -1,0 +1,62 @@
+name: "Task"
+description: "Describe a technical task linked to a User Story."
+title: "[Task] - "
+assignees:
+  - vfourny
+body:
+  - type: markdown
+    attributes:
+      value: "## 🔧 Task"
+
+  - type: input
+    id: linked_story
+    attributes:
+      label: "Linked User Story"
+      description: "Reference the User Story this task belongs to."
+      placeholder: "#42"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task_type
+    attributes:
+      label: "Task type"
+      description: "What kind of work does this task involve?"
+      options:
+        - "⚙️ Backend"
+        - "🎨 Frontend"
+        - "📄 Documentation"
+        - "🧪 Tests"
+        - "🛠️ DevOps / Infra"
+        - "🔍 Research / Spike"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe the technical work to be done."
+      placeholder: "Implement the POST /users endpoint that creates a new user in the database..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps"
+      description: "List the steps or sub-tasks to complete this task."
+      placeholder: |
+        - [ ] Step 1
+        - [ ] Step 2
+        - [ ] Step 3
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: "Additional context"
+      description: "Any extra information, constraints, or references."
+    validations:
+      required: false
