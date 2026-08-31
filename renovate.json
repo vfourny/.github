@@ -19,7 +19,7 @@
     {
       "matchDepTypes": ["dependencies"],  
       "matchUpdateTypes": ["patch", "minor"],
-      "groupName": dependencies patch/minor updates",  
+      "groupName": "dependencies patch/minor updates",  
       "automerge": true,
       "automergeSchedule": ["0 2 * * 1"]
     },
