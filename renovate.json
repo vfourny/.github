@@ -1,6 +1,13 @@
 {
   "extends": ["config:recommended"],
   "prConcurrentLimit": 3,
+    "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "automerge": false,
+    "prPriority": 10,
+    "reviewers": ["vfourny"]
+  },
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
@@ -10,18 +17,11 @@
       "automergeSchedule": ["0 2 * * 1"]
     },
     {
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["patch"],
-      "groupName": "patch updates",
+      "matchDepTypes": ["dependencies"],  
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": dependencies patch/minor updates",  
       "automerge": true,
       "automergeSchedule": ["0 2 * * 1"]
-    },
-    {
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["minor"],
-      "groupName": "minor updates",
-      "automerge": false,
-      "reviewers": ["vfourny"]
     },
     {
       "matchUpdateTypes": ["major"],
