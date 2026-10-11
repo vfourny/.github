@@ -3,15 +3,23 @@ name: Check Linked Issue
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 jobs:
   check-linked-issue:
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: read
+      pull-requests: read
     steps:
       - name: Check if PR is linked to an issue
         uses: actions/github-script@v8
         with:
           script: |
-            // Récupérer les issues liées via l'API GitHub
+            // Fetch the issues the PR will close via the GraphQL API
             const query = `
               query($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -37,5 +45,5 @@ jobs:
             const linkedIssues = result.repository.pullRequest.closingIssuesReferences.nodes;
 
             if (linkedIssues.length === 0) {
-              core.setFailed('❌ Cette PR doit être liée à une issue. Utilisez la section "Development" dans la sidebar pour lier une issue existante.');
+              core.setFailed('❌ This PR must be linked to an issue. Use the "Development" section in the sidebar or add "Closes #<issue>" to the description.');
             }

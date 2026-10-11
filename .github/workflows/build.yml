@@ -5,7 +5,7 @@ on:
     inputs:
       node_version:
         type: string
-        default: 'latest'
+        default: 'lts/*'
       is_build:
         type: boolean
         default: true
@@ -22,17 +22,24 @@ on:
         type: boolean
         default: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: ${{ inputs.node_version }}
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -40,33 +47,31 @@ jobs:
       - name: Check format
         run: npm run format:check
 
-      - name: Fix permissions
-        run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          chmod -R 755 $GITHUB_WORKSPACE
+      - name: Check linter
+        run: npm run lint
+
+      - name: Validate PR title with commitlint
+        if: ${{ inputs.is_pr_title_checked && github.event_name == 'pull_request' }}
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx commitlint
 
       - name: Build
         if: ${{ inputs.is_build }}
         run: npm run build
 
-      - name: Check linter
-        run: npm run lint
-
       - name: Check types
-        if: ${{ inputs.is_build && inputs.is_type_checked }}
+        if: ${{ inputs.is_type_checked }}
         run: npm run ts:check
 
-      - name: Check Tests
+      - name: Check tests
         if: ${{ inputs.is_tested }}
         run: npm run test
 
-      - name: Validate PR title with commitlint
-        if: ${{ inputs.is_pr_title_checked }}
-        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
-
-      - name: 'Upload build artifact'
+      - name: Upload build artifact
         if: ${{ inputs.is_build && inputs.is_build_upload }}
         uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
+          retention-days: 7

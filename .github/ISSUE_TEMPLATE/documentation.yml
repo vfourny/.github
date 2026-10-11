@@ -1,7 +1,8 @@
----
 name: Documentation Request
 description: Suggest missing or improved documentation.
 title: "[Doc]: "
+labels:
+  - documentation
 assignees:
   - vfourny
 body:
