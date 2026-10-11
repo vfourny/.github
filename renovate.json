@@ -1,33 +1,4 @@
 {
-  "extends": ["config:recommended"],
-  "prConcurrentLimit": 3,
-    "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": ["security"],
-    "automerge": false,
-    "prPriority": 10,
-    "reviewers": ["vfourny"]
-  },
-  "packageRules": [
-    {
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "devDependencies patch/minor updates",
-      "automerge": true,
-      "automergeSchedule": ["0 2 * * 1"]
-    },
-    {
-      "matchDepTypes": ["dependencies"],  
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "dependencies patch/minor updates",  
-      "automerge": true,
-      "automergeSchedule": ["0 2 * * 1"]
-    },
-    {
-      "matchUpdateTypes": ["major"],
-      "automerge": false,
-      "minimumReleaseAge": "30 days",
-      "reviewers": ["vfourny"]
-    }
-  ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>vfourny/.github"]
 }

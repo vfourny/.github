@@ -1,6 +1,8 @@
 name: Bug Report
 description: Report a bug or unexpected behaviour.
 title: "[Bug]: "
+labels:
+  - bug
 assignees:
   - vfourny
 body:
@@ -29,6 +31,27 @@ body:
         3. See error
     validations:
       required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which version of the project are you running?
+      placeholder: "1.2.3 or commit SHA"
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Node.js version, or anything else relevant.
+      placeholder: |
+        - OS: macOS 15
+        - Browser: Firefox 140
+        - Node.js: 22.x
+    validations:
+      required: false
 
   - type: textarea
     id: logs

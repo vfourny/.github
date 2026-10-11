@@ -5,7 +5,7 @@ on:
     inputs:
       node_version:
         type: string
-        default: 'latest'
+        default: 'lts/*'
       is_build:
         type: boolean
         default: true
@@ -17,40 +17,54 @@ on:
         required: true
       SEMANTIC_BOT_PRIVATE_KEY:
         required: true
+      NPM_TOKEN:
+        description: 'npm token, only needed when publishing without npm trusted publishing (OIDC).'
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:    
-      contents: write
-      packages: write
-      id-token: write 
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Generate token
         id: generate_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.SEMANTIC_BOT_APP_ID }}
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
 
-      - name: Checking out code
-        uses: actions/checkout@v6
+      - name: Check out code
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
           token: ${{ steps.generate_token.outputs.token }}
 
-      - name: Setting up Node
-        uses: actions/setup-node@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: ${{ inputs.node_version }}  
-          registry-url: 'https://registry.npmjs.org' 
+          node-version: ${{ inputs.node_version }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Upload previous build artifact
+      - name: Download build artifact
         if: ${{ inputs.is_build }}
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: dist
           path: dist
@@ -60,4 +74,6 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           PUBLISH: ${{ inputs.is_publish }}

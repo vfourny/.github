@@ -1,6 +1,8 @@
 name: "Task"
 description: "Describe a technical task linked to a User Story."
 title: "[Task] - "
+labels:
+  - task
 assignees:
   - vfourny
 body:

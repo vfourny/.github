@@ -1,0 +1,20 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    uses: ./.github/workflows/release.yml # zizmor: ignore[self-repository] -- actionlint does not support "$/" yet
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      is_build: false
+    secrets:
+      SEMANTIC_BOT_APP_ID: ${{ secrets.SEMANTIC_BOT_APP_ID }}
+      SEMANTIC_BOT_PRIVATE_KEY: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}

@@ -1,6 +1,8 @@
 name: "User Story"
 description: "Describe a new feature or improvement from a user perspective."
 title: "[US] - "
+labels:
+  - enhancement
 assignees:
   - vfourny
 body:

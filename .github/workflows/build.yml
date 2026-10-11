@@ -5,7 +5,7 @@ on:
     inputs:
       node_version:
         type: string
-        default: 'latest'
+        default: 'lts/*'
       is_build:
         type: boolean
         default: true
@@ -18,21 +18,25 @@ on:
       is_tested:
         type: boolean
         default: true
-      is_pr_title_checked:
-        type: boolean
-        default: true
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: ${{ inputs.node_version }}
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -40,33 +44,25 @@ jobs:
       - name: Check format
         run: npm run format:check
 
-      - name: Fix permissions
-        run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          chmod -R 755 $GITHUB_WORKSPACE
+      - name: Check linter
+        run: npm run lint
+
+      - name: Check types
+        if: ${{ inputs.is_type_checked }}
+        run: npm run ts:check
 
       - name: Build
         if: ${{ inputs.is_build }}
         run: npm run build
 
-      - name: Check linter
-        run: npm run lint
-
-      - name: Check types
-        if: ${{ inputs.is_build && inputs.is_type_checked }}
-        run: npm run ts:check
-
-      - name: Check Tests
+      - name: Check tests
         if: ${{ inputs.is_tested }}
         run: npm run test
 
-      - name: Validate PR title with commitlint
-        if: ${{ inputs.is_pr_title_checked }}
-        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
-
-      - name: 'Upload build artifact'
+      - name: Upload build artifact
         if: ${{ inputs.is_build && inputs.is_build_upload }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dist
           path: dist
+          retention-days: 7
