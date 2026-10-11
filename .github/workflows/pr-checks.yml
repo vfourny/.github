@@ -1,14 +1,48 @@
-name: Check Linked Issue
+name: PR Checks
 
 on:
   workflow_call:
+    inputs:
+      node_version:
+        type: string
+        default: 'lts/*'
+      is_pr_title_checked:
+        type: boolean
+        default: true
+      is_linked_issue_checked:
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 jobs:
-  check-linked-issue:
-    if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
+  pr-title:
+    if: ${{ inputs.is_pr_title_checked && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate PR title with commitlint
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx commitlint
+
+  linked-issue:
+    if: ${{ inputs.is_linked_issue_checked && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

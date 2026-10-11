@@ -2,7 +2,7 @@
 
 Shared GitHub configuration for all `vfourny` repositories:
 
-- **Reusable workflows** (build, release, linked-issue check)
+- **Reusable workflows** (build, release, PR checks)
 - **Default community files** (issue templates, PR template, `CONTRIBUTING.md`, `SECURITY.md`), applied to every repository that doesn't define its own
 - **Shared Renovate preset** (`default.json`)
 
@@ -10,7 +10,7 @@ Shared GitHub configuration for all `vfourny` repositories:
 
 ### `build.yml`
 
-Installs dependencies, then checks formatting, lint, PR title, build, types and tests, and uploads `dist` as an artifact.
+Installs dependencies, checks formatting, lint and types, builds, runs the tests, and uploads `dist` as an artifact.
 
 | Input                 | Type    | Default | Description                                               |
 | --------------------- | ------- | ------- | --------------------------------------------------------- |
@@ -19,7 +19,6 @@ Installs dependencies, then checks formatting, lint, PR title, build, types and 
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
 | `is_type_checked`     | boolean | `true`  | Run `npm run ts:check`                                    |
 | `is_tested`           | boolean | `true`  | Run `npm run test`                                        |
-| `is_pr_title_checked` | boolean | `true`  | Validate the PR title with commitlint (PR events only)    |
 
 Required npm scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs.
 
@@ -39,9 +38,18 @@ Runs [semantic-release](https://semantic-release.gitbook.io/) with a GitHub App 
 | `SEMANTIC_BOT_PRIVATE_KEY` | yes      | GitHub App private key                                            |
 | `NPM_TOKEN`                | no       | npm token, only if the package doesn't use npm trusted publishing |
 
-### `check-linked-issues.yml`
+### `pr-checks.yml`
 
-Fails if the pull request isn't linked to an issue (`Closes #123` or the "Development" sidebar). Only runs on `pull_request` / `pull_request_target` events.
+Checks the pull request metadata, separately from the build, so that editing the PR title or description re-runs only these fast checks. Jobs are skipped outside `pull_request` / `pull_request_target` events.
+
+- **PR title**: validated with the project's commitlint config (runs `npm ci`)
+- **Linked issue**: fails if the PR isn't linked to an issue (`Closes #123` or the "Development" sidebar)
+
+| Input                     | Type    | Default | Description                   |
+| ------------------------- | ------- | ------- | ----------------------------- |
+| `node_version`            | string  | `lts/*` | Node.js version               |
+| `is_pr_title_checked`     | boolean | `true`  | Validate the PR title         |
+| `is_linked_issue_checked` | boolean | `true`  | Require a linked issue        |
 
 ### Example
 
@@ -58,14 +66,16 @@ permissions:
   contents: read
 
 jobs:
-  linked-issue:
+  pr-checks:
     if: github.event_name == 'pull_request'
-    uses: vfourny/.github/.github/workflows/check-linked-issues.yml@main
+    uses: vfourny/.github/.github/workflows/pr-checks.yml@main
     permissions:
+      contents: read
       issues: read
       pull-requests: read
 
   build:
+    if: github.event_name != 'pull_request' || github.event.action != 'edited'
     uses: vfourny/.github/.github/workflows/build.yml@main
 
   release:
