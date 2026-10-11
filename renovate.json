@@ -6,6 +6,11 @@
       "description": "v10 needs conventional-changelog-writer@9, but @semantic-release/release-notes-generator still ships writer@8",
       "matchPackageNames": ["conventional-changelog-conventionalcommits"],
       "allowedVersions": "<10"
+    },
+    {
+      "description": "This repository only: automerge major updates too (overrides the shared default.json rule)",
+      "matchUpdateTypes": ["major"],
+      "automerge": true
     }
   ]
 }
