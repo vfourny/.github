@@ -8,7 +8,7 @@ Shared GitHub configuration for all `vfourny` repositories:
 
 ## Versioning
 
-This repository is released with [semantic-release](https://semantic-release.gitbook.io/): every merge on `main` creates a `vX.Y.Z` tag and a GitHub release, computed from the Conventional Commits PR title (`fix:` → patch, `feat:` → minor, `!` or `BREAKING CHANGE` → major).
+This repository is released with [semantic-release](https://semantic-release.gitbook.io/): merging a PR on `main` creates a `vX.Y.Z` tag and a GitHub release when its Conventional Commits title calls for one (`fix:` → patch, `feat:` → minor, `!` or `BREAKING CHANGE` → major). Other types (`docs:`, `chore:`, `ci:`, `test:`…) don't publish a release.
 
 **Always reference a release, never `@main`**, so a change here can't break your repositories. With the Renovate preset below, references are pinned to a commit SHA and updated through PRs (patch/minor automerged, majors reviewed manually):
 
@@ -29,6 +29,7 @@ Installs dependencies, checks formatting, lint and types, builds, runs the tests
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
 | `is_type_checked`     | boolean | `true`  | Run `npm run ts:check`                                    |
 | `is_tested`           | boolean | `true`  | Run `npm run test`                                        |
+| `is_pr_title_checked` | boolean | `false` | **Deprecated, ignored**: use `pr-checks.yml`              |
 
 Required npm scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs.
 
@@ -52,7 +53,7 @@ Runs [semantic-release](https://semantic-release.gitbook.io/) with a GitHub App 
 
 Checks the pull request metadata, separately from the build, so that editing the PR title or description re-runs only these fast checks. Jobs are skipped outside `pull_request` / `pull_request_target` events.
 
-- **PR title**: validated with the project's commitlint config (runs `npm ci`)
+- **PR title**: validated with the project's commitlint config (runs `npm ci --ignore-scripts`)
 - **Linked issue**: fails if the PR isn't linked to an issue (`Closes #123` or the "Development" sidebar)
 
 | Input                     | Type    | Default | Description                   |
@@ -60,6 +61,10 @@ Checks the pull request metadata, separately from the build, so that editing the
 | `node_version`            | string  | `lts/*` | Node.js version               |
 | `is_pr_title_checked`     | boolean | `true`  | Validate the PR title         |
 | `is_linked_issue_checked` | boolean | `true`  | Require a linked issue        |
+
+### `check-linked-issues.yml` (deprecated)
+
+Kept for backward compatibility with existing callers: same check as the `linked-issue` job of `pr-checks.yml`. Use `pr-checks.yml` instead; it will be removed in a future major version.
 
 ### Example
 

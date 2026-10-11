@@ -18,6 +18,10 @@ on:
       is_tested:
         type: boolean
         default: true
+      is_pr_title_checked:
+        description: 'Deprecated and ignored: use pr-checks.yml. Kept so existing callers do not break.'
+        type: boolean
+        default: false
 
 permissions:
   contents: read

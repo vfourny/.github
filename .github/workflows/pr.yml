@@ -1,0 +1,17 @@
+name: PR
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-checks:
+    uses: ./.github/workflows/pr-checks.yml # zizmor: ignore[self-repository] -- actionlint does not support "$/" yet
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read

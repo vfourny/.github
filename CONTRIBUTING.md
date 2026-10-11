@@ -17,7 +17,7 @@ semantic-release to compute versions and changelogs.
 
 ## Before pushing
 
-Make sure these commands pass locally:
+Run the checks defined by the repository before pushing. For Node.js projects using the shared `build.yml` workflow, these are:
 
 ```sh
 npm run format:check
