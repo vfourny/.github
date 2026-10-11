@@ -29,7 +29,6 @@ Installs dependencies, checks formatting, lint and types, builds, runs the tests
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
 | `is_type_checked`     | boolean | `true`  | Run `npm run ts:check`                                    |
 | `is_tested`           | boolean | `true`  | Run `npm run test`                                        |
-| `is_pr_title_checked` | boolean | `false` | **Deprecated, ignored**: use `pr-checks.yml`              |
 
 Required npm scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs.
 
@@ -61,10 +60,6 @@ Checks the pull request metadata, separately from the build, so that editing the
 | `node_version`            | string  | `lts/*` | Node.js version               |
 | `is_pr_title_checked`     | boolean | `true`  | Validate the PR title         |
 | `is_linked_issue_checked` | boolean | `true`  | Require a linked issue        |
-
-### `check-linked-issues.yml` (deprecated)
-
-Kept for backward compatibility with existing callers: same check as the `linked-issue` job of `pr-checks.yml`. Use `pr-checks.yml` instead; it will be removed in a future major version.
 
 ### Example
 
