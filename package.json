@@ -1,0 +1,9 @@
+{
+  "name": "vfourny-github",
+  "private": true,
+  "description": "Shared GitHub configuration for vfourny repositories",
+  "devDependencies": {
+    "conventional-changelog-conventionalcommits": "10.4.1",
+    "semantic-release": "25.0.9"
+  }
+}
