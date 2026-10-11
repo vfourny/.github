@@ -13,5 +13,6 @@ jobs:
     uses: ./.github/workflows/pr-checks.yml # zizmor: ignore[self-repository] -- actionlint does not support "$/" yet
     permissions:
       contents: read
-      issues: read
-      pull-requests: read
+    with:
+      # Config repository maintained solo: most PRs (including Renovate's) have no issue
+      is_linked_issue_checked: false

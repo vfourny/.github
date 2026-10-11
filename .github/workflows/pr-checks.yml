@@ -42,7 +42,8 @@ jobs:
         run: echo "$PR_TITLE" | npx commitlint
 
   linked-issue:
-    if: ${{ inputs.is_linked_issue_checked && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') }}
+    # Bot PRs (Renovate, Dependabot…) are never linked to an issue
+    if: ${{ inputs.is_linked_issue_checked && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') && github.event.pull_request.user.type != 'Bot' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

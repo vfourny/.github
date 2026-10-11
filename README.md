@@ -54,7 +54,7 @@ Runs [semantic-release](https://semantic-release.gitbook.io/) with a GitHub App 
 Checks the pull request metadata, separately from the build, so that editing the PR title or description re-runs only these fast checks. Jobs are skipped outside `pull_request` / `pull_request_target` events.
 
 - **PR title**: validated with the project's commitlint config (runs `npm ci --ignore-scripts`)
-- **Linked issue**: fails if the PR isn't linked to an issue (`Closes #123` or the "Development" sidebar)
+- **Linked issue**: fails if the PR isn't linked to an issue (`Closes #123` or the "Development" sidebar). Skipped for bot PRs (Renovate, Dependabot…)
 
 | Input                     | Type    | Default | Description                   |
 | ------------------------- | ------- | ------- | ----------------------------- |
