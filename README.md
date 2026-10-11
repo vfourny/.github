@@ -44,7 +44,8 @@ Runs [semantic-release](https://semantic-release.gitbook.io/) with a GitHub App 
 
 | Secret                     | Required | Description                                                       |
 | -------------------------- | -------- | ----------------------------------------------------------------- |
-| `SEMANTIC_BOT_APP_ID`      | yes      | GitHub App ID used to push tags and create releases               |
+| `SEMANTIC_BOT_CLIENT_ID`   | yes      | GitHub App Client ID used to push tags and create releases        |
+| `SEMANTIC_BOT_APP_ID`      | no       | Deprecated, use `SEMANTIC_BOT_CLIENT_ID` instead                  |
 | `SEMANTIC_BOT_PRIVATE_KEY` | yes      | GitHub App private key                                            |
 | `NPM_TOKEN`                | no       | npm token, only if the package doesn't use npm trusted publishing |
 
@@ -98,7 +99,7 @@ jobs:
       contents: read
       id-token: write
     secrets:
-      SEMANTIC_BOT_APP_ID: ${{ secrets.SEMANTIC_BOT_APP_ID }}
+      SEMANTIC_BOT_CLIENT_ID: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
       SEMANTIC_BOT_PRIVATE_KEY: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
 ```
 
