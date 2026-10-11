@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   release:
-    uses: ./.github/workflows/release.yml
+    uses: ./.github/workflows/release.yml # zizmor: ignore[self-repository] -- actionlint does not support "$/" yet
     permissions:
       contents: read
       id-token: write
