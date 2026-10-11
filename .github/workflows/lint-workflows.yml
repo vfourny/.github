@@ -38,10 +38,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v10
-
       - name: Run zizmor
-        run: uvx zizmor --format=github .
-        env:
-          GH_TOKEN: ${{ github.token }}
+        uses: zizmorcore/zizmor-action@v0.6.4
+        with:
+          advanced-security: false
+          annotations: true
