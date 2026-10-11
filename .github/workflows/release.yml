@@ -14,11 +14,7 @@ on:
         default: false
     secrets:
       SEMANTIC_BOT_CLIENT_ID:
-        description: 'GitHub App Client ID. Required unless the deprecated SEMANTIC_BOT_APP_ID is set.'
-        required: false
-      SEMANTIC_BOT_APP_ID:
-        description: 'Deprecated: use SEMANTIC_BOT_CLIENT_ID instead.'
-        required: false
+        required: true
       SEMANTIC_BOT_PRIVATE_KEY:
         required: true
       NPM_TOKEN:
@@ -44,7 +40,7 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: ${{ secrets.SEMANTIC_BOT_CLIENT_ID || secrets.SEMANTIC_BOT_APP_ID }}
+          client-id: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
           permission-contents: write
           permission-issues: write
