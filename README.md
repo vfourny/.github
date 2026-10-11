@@ -6,6 +6,16 @@ Shared GitHub configuration for all `vfourny` repositories:
 - **Default community files** (issue templates, PR template, `CONTRIBUTING.md`, `SECURITY.md`), applied to every repository that doesn't define its own
 - **Shared Renovate preset** (`default.json`)
 
+## Versioning
+
+This repository is released with [semantic-release](https://semantic-release.gitbook.io/): every merge on `main` creates a `vX.Y.Z` tag and a GitHub release, computed from the Conventional Commits PR title (`fix:` → patch, `feat:` → minor, `!` or `BREAKING CHANGE` → major).
+
+**Always reference a release, never `@main`**, so a change here can't break your repositories. With the Renovate preset below, references are pinned to a commit SHA and updated through PRs (patch/minor automerged, majors reviewed manually):
+
+```yaml
+uses: vfourny/.github/.github/workflows/build.yml@v2.0.0
+```
+
 ## Reusable workflows
 
 ### `build.yml`
@@ -68,7 +78,7 @@ permissions:
 jobs:
   pr-checks:
     if: github.event_name == 'pull_request'
-    uses: vfourny/.github/.github/workflows/pr-checks.yml@main
+    uses: vfourny/.github/.github/workflows/pr-checks.yml@v2.0.0
     permissions:
       contents: read
       issues: read
@@ -76,12 +86,12 @@ jobs:
 
   build:
     if: github.event_name != 'pull_request' || github.event.action != 'edited'
-    uses: vfourny/.github/.github/workflows/build.yml@main
+    uses: vfourny/.github/.github/workflows/build.yml@v2.0.0
 
   release:
     if: github.event_name == 'push'
     needs: build
-    uses: vfourny/.github/.github/workflows/release.yml@main
+    uses: vfourny/.github/.github/workflows/release.yml@v2.0.0
     permissions:
       contents: read
       id-token: write
@@ -108,3 +118,4 @@ What the preset does:
 - Waits 3 days before proposing a release (30 days for major updates)
 - Groups patch/minor updates and automerges them on Monday night (00:00–03:59)
 - Never automerges major updates or security fixes; security fixes skip the waiting period
+- Updates of these shared workflows skip the waiting period

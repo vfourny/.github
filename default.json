@@ -1,34 +1,66 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
   "prConcurrentLimit": 3,
   "minimumReleaseAge": "3 days",
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security"],
+    "labels": [
+      "security"
+    ],
     "automerge": false,
-    "reviewers": ["vfourny"]
+    "reviewers": [
+      "vfourny"
+    ]
   },
   "packageRules": [
     {
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "groupName": "devDependencies patch/minor updates",
       "automerge": true,
-      "automergeSchedule": ["* 0-3 * * 1"]
+      "automergeSchedule": [
+        "* 0-3 * * 1"
+      ]
     },
     {
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "groupName": "dependencies patch/minor updates",
       "automerge": true,
-      "automergeSchedule": ["* 0-3 * * 1"]
+      "automergeSchedule": [
+        "* 0-3 * * 1"
+      ]
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false,
       "minimumReleaseAge": "30 days",
-      "reviewers": ["vfourny"]
+      "reviewers": [
+        "vfourny"
+      ]
+    },
+    {
+      "description": "Own reusable workflows: no release age delay",
+      "matchPackageNames": [
+        "vfourny/.github"
+      ],
+      "minimumReleaseAge": null
     }
   ]
 }

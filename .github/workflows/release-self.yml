@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 'lts/*'
+
+      - name: Release
+        run: >-
+          npx --yes
+          -p semantic-release@25.0.9
+          -p conventional-changelog-conventionalcommits@10.4.1
+          semantic-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
