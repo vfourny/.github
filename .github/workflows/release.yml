@@ -13,7 +13,7 @@ on:
         type: boolean
         default: false
     secrets:
-      SEMANTIC_BOT_APP_ID:
+      SEMANTIC_BOT_CLIENT_ID:
         required: true
       SEMANTIC_BOT_PRIVATE_KEY:
         required: true
@@ -40,7 +40,7 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ secrets.SEMANTIC_BOT_APP_ID }}
+          client-id: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
           private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
           permission-contents: write
           permission-issues: write

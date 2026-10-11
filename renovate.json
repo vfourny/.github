@@ -1,4 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>vfourny/.github"]
+  "extends": ["local>vfourny/.github"],
+  "packageRules": [
+    {
+      "description": "v10 needs conventional-changelog-writer@9, but @semantic-release/release-notes-generator still ships writer@8",
+      "matchPackageNames": ["conventional-changelog-conventionalcommits"],
+      "allowedVersions": "<10"
+    }
+  ]
 }

@@ -16,5 +16,5 @@ jobs:
     with:
       is_build: false
     secrets:
-      SEMANTIC_BOT_APP_ID: ${{ secrets.SEMANTIC_BOT_APP_ID }}
+      SEMANTIC_BOT_CLIENT_ID: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
       SEMANTIC_BOT_PRIVATE_KEY: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
