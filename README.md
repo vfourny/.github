@@ -48,6 +48,8 @@ Runs [semantic-release](https://semantic-release.gitbook.io/) with a GitHub App 
 | `SEMANTIC_BOT_PRIVATE_KEY` | yes      | GitHub App private key                                            |
 | `NPM_TOKEN`                | no       | npm token, only if the package doesn't use npm trusted publishing |
 
+The GitHub App must be installed on the repository with these **repository permissions**: `Contents: Read and write` (tags, releases), `Issues: Read and write` and `Pull requests: Read and write` (semantic-release comments on released issues and PRs). Token generation fails if the app lacks one of them.
+
 ### `pr-checks.yml`
 
 Checks the pull request metadata, separately from the build, so that editing the PR title or description re-runs only these fast checks. Jobs are skipped outside `pull_request` / `pull_request_target` events.
