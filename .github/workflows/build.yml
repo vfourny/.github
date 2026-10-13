@@ -16,16 +16,6 @@ on:
       is_build_upload:
         type: boolean
         default: true
-      is_type_checked:
-        type: boolean
-        default: true
-      is_knip_checked:
-        description: 'Run the knip script (unused files, exports and dependencies) when the repository defines one.'
-        type: boolean
-        default: true
-      is_tested:
-        type: boolean
-        default: true
 
 permissions:
   contents: read
@@ -59,24 +49,22 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check format
-        run: ${PACKAGE_MANAGER} run format:check
+        run: ${PACKAGE_MANAGER} run --if-present format:check
         env:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check linter
-        run: ${PACKAGE_MANAGER} run lint
+        run: ${PACKAGE_MANAGER} run --if-present lint
         env:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check unused code (knip)
-        if: ${{ inputs.is_knip_checked }}
         run: ${PACKAGE_MANAGER} run --if-present knip
         env:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check types
-        if: ${{ inputs.is_type_checked }}
-        run: ${PACKAGE_MANAGER} run ts:check
+        run: ${PACKAGE_MANAGER} run --if-present ts:check
         env:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
@@ -87,8 +75,7 @@ jobs:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check tests
-        if: ${{ inputs.is_tested }}
-        run: ${PACKAGE_MANAGER} run test
+        run: ${PACKAGE_MANAGER} run --if-present test
         env:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
