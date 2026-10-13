@@ -20,7 +20,7 @@ uses: vfourny/.github/.github/workflows/build.yml@v2.0.0
 
 ### `build.yml`
 
-Installs dependencies, checks formatting, lint and types, builds, runs the tests, and uploads `dist` as an artifact.
+Installs dependencies, checks formatting, lint, unused code (knip) and types, builds, runs the tests, and uploads `dist` as an artifact.
 
 | Input                 | Type    | Default | Description                                               |
 | --------------------- | ------- | ------- | --------------------------------------------------------- |
@@ -29,6 +29,7 @@ Installs dependencies, checks formatting, lint and types, builds, runs the tests
 | `is_build`            | boolean | `true`  | Run `npm run build`                                       |
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
 | `is_type_checked`     | boolean | `true`  | Run `npm run ts:check`                                    |
+| `is_knip_checked`     | boolean | `true`  | Run the `knip` script, skipped if the repository has none |
 | `is_tested`           | boolean | `true`  | Run `npm run test`                                        |
 
 Required scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs. They run with `npm run` or `pnpm run` depending on `package_manager`.
