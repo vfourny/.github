@@ -1,0 +1,88 @@
+name: Prisma check
+
+# Fails when the Prisma schema and the migrations folder are out of sync (schema changed
+# without `prisma migrate dev`). Replays every migration on an empty PostgreSQL service, then
+# diffs that database against the schema. No shadow database: Prisma 7 removed
+# `--shadow-database-url` / `--from-url`, the database comes from the project's prisma.config.ts.
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        type: string
+        default: 'lts/*'
+      package_manager:
+        description: "'npm' or 'pnpm' (pnpm version read from the packageManager field of package.json)."
+        type: string
+        default: 'npm'
+      schema_path:
+        description: 'Schema file or folder passed to `prisma migrate diff --to-schema`.'
+        type: string
+        default: 'prisma/schema.prisma'
+      postgres_version:
+        description: 'Tag of the `postgres` Docker image (match the production major version).'
+        type: string
+        default: '17'
+
+permissions:
+  contents: read
+
+jobs:
+  prisma-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:${{ inputs.postgres_version }}
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: prisma
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U prisma"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Throwaway CI database. Both names are set: prisma.config.ts usually reads
+      # DIRECT_URL (migrations) and falls back to DATABASE_URL.
+      DATABASE_URL: postgresql://prisma:prisma@localhost:5432/prisma
+      DIRECT_URL: postgresql://prisma:prisma@localhost:5432/prisma
+    steps:
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: ${{ inputs.package_manager }}
+
+      - name: Install dependencies (npm)
+        if: ${{ inputs.package_manager != 'pnpm' }}
+        run: npm ci
+
+      - name: Install dependencies (pnpm)
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply migrations to an empty database
+        run: ./node_modules/.bin/prisma migrate deploy
+
+      - name: Check schema matches migrations
+        # --exit-code: 0 = in sync, 2 = differences found, 1 = error
+        run: |
+          ./node_modules/.bin/prisma migrate diff \
+            --from-config-datasource \
+            --to-schema "${SCHEMA_PATH}" \
+            --exit-code \
+            || { echo "::error::Prisma schema and migrations differ: run \`prisma migrate dev\` and commit the migration."; exit 1; }
+        env:
+          SCHEMA_PATH: ${{ inputs.schema_path }}
