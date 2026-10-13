@@ -63,6 +63,21 @@ Checks the pull request metadata, separately from the build, so that editing the
 | `is_pr_title_checked`     | boolean | `true`  | Validate the PR title         |
 | `is_linked_issue_checked` | boolean | `true`  | Require a linked issue        |
 
+### `prisma-check.yml`
+
+Fails when the Prisma schema and the migrations folder are out of sync (the schema changed but no migration was created with `prisma migrate dev`). It replays every migration on an empty PostgreSQL service with `prisma migrate deploy`, then runs `prisma migrate diff --from-config-datasource --to-schema <schema_path> --exit-code`. No secret and no shadow database needed.
+
+Requirements: PostgreSQL, Prisma 7+ (`prisma.config.ts` with a `datasource.url` read from `DIRECT_URL` or `DATABASE_URL`: the workflow sets both to the CI database).
+
+| Input              | Type   | Default                | Description                                             |
+| ------------------ | ------ | ---------------------- | ------------------------------------------------------- |
+| `node_version`     | string | `lts/*`                | Node.js version                                         |
+| `package_manager`  | string | `npm`                  | `npm` or `pnpm`                                         |
+| `schema_path`      | string | `prisma/schema.prisma` | Schema file or folder (multi-file schema)               |
+| `postgres_version` | string | `17`                   | `postgres` Docker image tag, match the production major |
+
+Run it on every PR, without a `paths` filter, if it's a required status check: a skipped required check stays pending and blocks the merge.
+
 ### Example
 
 ```yaml
