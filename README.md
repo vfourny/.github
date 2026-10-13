@@ -25,12 +25,13 @@ Installs dependencies, checks formatting, lint and types, builds, runs the tests
 | Input                 | Type    | Default | Description                                               |
 | --------------------- | ------- | ------- | --------------------------------------------------------- |
 | `node_version`        | string  | `lts/*` | Node.js version passed to `actions/setup-node`            |
+| `package_manager`     | string  | `npm`   | `npm` or `pnpm` (pnpm version read from `packageManager`) |
 | `is_build`            | boolean | `true`  | Run `npm run build`                                       |
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
 | `is_type_checked`     | boolean | `true`  | Run `npm run ts:check`                                    |
 | `is_tested`           | boolean | `true`  | Run `npm run test`                                        |
 
-Required npm scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs.
+Required scripts: `format:check`, `lint`, plus `build`, `ts:check` and `test` depending on the inputs. They run with `npm run` or `pnpm run` depending on `package_manager`.
 
 ### `release.yml`
 
@@ -54,12 +55,13 @@ The GitHub App must be installed on the repository with these **repository permi
 
 Checks the pull request metadata, separately from the build, so that editing the PR title or description re-runs only these fast checks. Jobs are skipped outside `pull_request` / `pull_request_target` events.
 
-- **PR title**: validated with the project's commitlint config (runs `npm ci --ignore-scripts`)
+- **PR title**: validated with the project's commitlint config (dependencies installed with `--ignore-scripts`)
 - **Linked issue**: fails if the PR isn't linked to an issue (`Closes #123` or the "Development" sidebar). Skipped for bot PRs (Renovate, Dependabot…)
 
 | Input                     | Type    | Default | Description                   |
 | ------------------------- | ------- | ------- | ----------------------------- |
 | `node_version`            | string  | `lts/*` | Node.js version               |
+| `package_manager`         | string  | `npm`   | `npm` or `pnpm`               |
 | `is_pr_title_checked`     | boolean | `true`  | Validate the PR title         |
 | `is_linked_issue_checked` | boolean | `true`  | Require a linked issue        |
 
