@@ -6,16 +6,14 @@ on:
       node_version:
         type: string
         default: 'lts/*'
+      package_manager:
+        description: "'npm' or 'pnpm' (pnpm version read from the packageManager field of package.json)."
+        type: string
+        default: 'npm'
       is_build:
         type: boolean
         default: true
       is_build_upload:
-        type: boolean
-        default: true
-      is_type_checked:
-        type: boolean
-        default: true
-      is_tested:
         type: boolean
         default: true
 
@@ -32,32 +30,54 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup pnpm
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: npm
+          cache: ${{ inputs.package_manager }}
 
-      - name: Install dependencies
+      - name: Install dependencies (npm)
+        if: ${{ inputs.package_manager != 'pnpm' }}
         run: npm ci
 
+      - name: Install dependencies (pnpm)
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        run: pnpm install --frozen-lockfile
+
       - name: Check format
-        run: npm run format:check
+        run: ${PACKAGE_MANAGER} run --if-present format:check
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check linter
-        run: npm run lint
+        run: ${PACKAGE_MANAGER} run --if-present lint
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
+
+      - name: Check unused code (knip)
+        run: ${PACKAGE_MANAGER} run --if-present knip
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check types
-        if: ${{ inputs.is_type_checked }}
-        run: npm run ts:check
+        run: ${PACKAGE_MANAGER} run --if-present ts:check
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Build
         if: ${{ inputs.is_build }}
-        run: npm run build
+        run: ${PACKAGE_MANAGER} run build
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Check tests
-        if: ${{ inputs.is_tested }}
-        run: npm run test
+        run: ${PACKAGE_MANAGER} run --if-present test
+        env:
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
 
       - name: Upload build artifact
         if: ${{ inputs.is_build && inputs.is_build_upload }}
