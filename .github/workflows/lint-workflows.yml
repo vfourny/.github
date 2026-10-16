@@ -1,13 +1,12 @@
 name: Lint Workflows
 
+# No `paths` filter: actionlint and zizmor are required checks on main, and a required check
+# that never runs (e.g. on the release PR, which only touches CHANGELOG.md / package.json)
+# blocks the merge forever.
 on:
   pull_request:
-    paths:
-      - '.github/**'
   push:
     branches: [main]
-    paths:
-      - '.github/**'
 
 permissions:
   contents: read
