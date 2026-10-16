@@ -1,25 +1,32 @@
-name: Automatic Release
+name: Release
 
+# Releases with release-please: every push on main creates or updates a release PR (version and
+# CHANGELOG computed from Conventional Commits); merging it creates the vX.Y.Z tag and the GitHub
+# release. With `is_auto_merged`, auto-merge is enabled on the release PR, so it merges itself as
+# soon as its checks pass: every releasable merge on main ships without manual action.
+# Publishing or deploying is up to the caller: chain a job on the outputs
+# (`if: needs.release.outputs.release_created == 'true'`).
 on:
   workflow_call:
     inputs:
-      node_version:
-        type: string
-        default: 'lts/*'
-      is_build:
-        type: boolean
-        default: true
-      is_publish:
+      is_auto_merged:
+        description: 'Enable auto-merge (squash) on the release PR: release on every releasable merge.'
         type: boolean
         default: false
     secrets:
-      SEMANTIC_BOT_CLIENT_ID:
+      RELEASE_TOKEN:
+        description: 'Fine-grained PAT (Contents, Pull requests, Issues: read and write). GITHUB_TOKEN would not trigger the CI of the release PR, nor this workflow when it merges.'
         required: true
-      SEMANTIC_BOT_PRIVATE_KEY:
-        required: true
-      NPM_TOKEN:
-        description: 'npm token, only needed when publishing without npm trusted publishing (OIDC).'
-        required: false
+    outputs:
+      release_created:
+        description: "'true' when this run created a release."
+        value: ${{ jobs.release.outputs.release_created }}
+      tag_name:
+        description: 'Tag of the created release (e.g. v1.2.0).'
+        value: ${{ jobs.release.outputs.tag_name }}
+      sha:
+        description: 'Released commit SHA.'
+        value: ${{ jobs.release.outputs.sha }}
 
 permissions:
   contents: read
@@ -31,49 +38,26 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     permissions:
       contents: read
-      id-token: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      sha: ${{ steps.release.outputs.sha }}
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+      - name: Release Please
+        id: release
+        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         with:
-          client-id: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
-          private-key: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
-          permission-contents: write
-          permission-issues: write
-          permission-pull-requests: write
+          token: ${{ secrets.RELEASE_TOKEN }}
 
-      - name: Check out code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          token: ${{ steps.generate_token.outputs.token }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: ${{ inputs.node_version }}
-          registry-url: 'https://registry.npmjs.org'
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Download build artifact
-        if: ${{ inputs.is_build }}
-        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: dist
-          path: dist
-
-      - name: Release and publish
-        run: npx semantic-release
+      # `pr` is only set when this run created or updated the release PR. Auto-merge needs
+      # "Allow auto-merge" in the repository settings.
+      - name: Enable auto-merge on the release PR
+        if: ${{ inputs.is_auto_merged && steps.release.outputs.pr }}
         env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          PUBLISH: ${{ inputs.is_publish }}
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ fromJSON(steps.release.outputs.pr).number }}
+        run: gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash

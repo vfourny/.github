@@ -1,11 +1,10 @@
 {
   "name": "vfourny-github",
   "private": true,
+  "version": "3.1.0",
   "description": "Shared GitHub configuration for vfourny repositories",
   "devDependencies": {
     "@commitlint/cli": "21.2.3",
-    "@commitlint/config-conventional": "21.2.3",
-    "conventional-changelog-conventionalcommits": "9.3.1",
-    "semantic-release": "25.0.9"
+    "@commitlint/config-conventional": "21.2.3"
   }
 }

@@ -13,7 +13,7 @@ Thanks for your interest in contributing!
 
 PR titles must follow [Conventional Commits](https://www.conventionalcommits.org/)
 (`feat: ...`, `fix: ...`, `chore: ...`). They are validated with commitlint and used by
-semantic-release to compute versions and changelogs.
+release-please to compute versions and changelogs.
 
 ## Before pushing
 
