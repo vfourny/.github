@@ -10,11 +10,7 @@ permissions:
 jobs:
   release:
     uses: ./.github/workflows/release.yml # zizmor: ignore[self-repository] -- actionlint does not support "$/" yet
-    permissions:
-      contents: read
-      id-token: write
     with:
-      is_build: false
+      is_auto_merged: true
     secrets:
-      SEMANTIC_BOT_CLIENT_ID: ${{ secrets.SEMANTIC_BOT_CLIENT_ID }}
-      SEMANTIC_BOT_PRIVATE_KEY: ${{ secrets.SEMANTIC_BOT_PRIVATE_KEY }}
+      RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
