@@ -1,7 +1,7 @@
 {
   "name": "vfourny-github",
   "private": true,
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Shared GitHub configuration for vfourny repositories",
   "devDependencies": {
     "@commitlint/cli": "21.2.3",
