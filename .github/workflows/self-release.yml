@@ -1,4 +1,7 @@
-name: CD
+name: Self release
+
+# This repository releases itself with its own reusable release.yml (auto-merged release PR).
+# Not named release.yml: that name is the reusable workflow called by the other repositories.
 
 on:
   push:
