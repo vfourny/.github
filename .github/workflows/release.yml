@@ -53,11 +53,13 @@ jobs:
           token: ${{ secrets.RELEASE_TOKEN }}
 
       # `pr` is only set when this run created or updated the release PR. Auto-merge needs
-      # "Allow auto-merge" in the repository settings.
+      # "Allow auto-merge" in the repository settings. The PR JSON is parsed in the shell, not with
+      # fromJSON(): step expressions are evaluated even when `if` is false, and fromJSON('') fails
+      # the whole job on the run that creates the release (no PR then).
       - name: Enable auto-merge on the release PR
-        if: ${{ inputs.is_auto_merged && steps.release.outputs.pr }}
+        if: ${{ inputs.is_auto_merged && steps.release.outputs.pr != '' }}
         env:
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ fromJSON(steps.release.outputs.pr).number }}
-        run: gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash
+          PR_JSON: ${{ steps.release.outputs.pr }}
+        run: gh pr merge "$(jq -r '.number' <<< "$PR_JSON")" --repo "$REPO" --auto --squash
