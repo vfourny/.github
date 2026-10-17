@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/vfourny/.github/compare/v4.0.0...v4.0.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **release:** auto merge step ([#98](https://github.com/vfourny/.github/issues/98)) ([785d866](https://github.com/vfourny/.github/commit/785d866de0531824cf86a3228a7b6253a1b67629))
+
 ## [4.0.0](https://github.com/vfourny/.github/compare/v3.1.0...v4.0.0) (2026-10-16)
 
 
