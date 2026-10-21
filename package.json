@@ -4,7 +4,7 @@
   "version": "4.0.1",
   "description": "Shared GitHub configuration for vfourny repositories",
   "devDependencies": {
-    "@commitlint/cli": "21.2.3",
-    "@commitlint/config-conventional": "21.2.3"
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4"
   }
 }
