@@ -28,6 +28,7 @@ Installs dependencies, checks formatting, lint, unused code (knip) and types, bu
 | `package_manager`     | string  | `npm`   | `npm` or `pnpm` (pnpm version read from `packageManager`) |
 | `is_build`            | boolean | `true`  | Run `npm run build`                                       |
 | `is_build_upload`     | boolean | `true`  | Upload `dist` as the `dist` artifact (requires `is_build`) |
+| `is_vars_exported`    | boolean | `false` | Export repository variables (`vars`) as env for the checks |
 
 Each check runs only if the repository defines its script (`run --if-present`): `format:check`, `lint`, `knip`, `ts:check` and `test`. To skip a check, don't define the script. `build` runs when `is_build` is set. Scripts run with `npm run` or `pnpm run` depending on `package_manager`.
 
