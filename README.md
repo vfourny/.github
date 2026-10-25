@@ -159,6 +159,7 @@ Requirements: PostgreSQL, Prisma 7+ (`prisma.config.ts` with a `datasource.url` 
 | `node_version`     | string | `lts/*`                | Node.js version                                         |
 | `package_manager`  | string | `npm`                  | `npm` or `pnpm`                                         |
 | `schema_path`      | string | `prisma/schema.prisma` | Schema file or folder (multi-file schema)               |
+| `config_path`      | string | `''`                   | `prisma.config.ts` path when not at the root (monorepo) |
 | `postgres_version` | string | `17`                   | `postgres` Docker image tag, match the production major |
 
 Run it on every PR, without a `paths` filter, if it's a required status check: a skipped required check stays pending and blocks the merge.
