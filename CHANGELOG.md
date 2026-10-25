@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/vfourny/.github/compare/v4.0.1...v4.1.0) (2026-10-25)
+
+
+### Features
+
+* **workflows:** add config_path to prisma-check ([#102](https://github.com/vfourny/.github/issues/102)) ([9f688bc](https://github.com/vfourny/.github/commit/9f688bca1ee5ec462f553132b469420d9083be8b))
+* **workflows:** add is_vars_exported to build ([#104](https://github.com/vfourny/.github/issues/104)) ([96b90e9](https://github.com/vfourny/.github/commit/96b90e9655fe4c4722f818769f4615e686894c40))
+
 ## [4.0.1](https://github.com/vfourny/.github/compare/v4.0.0...v4.0.1) (2026-10-17)
 
 
