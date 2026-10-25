@@ -18,6 +18,10 @@ on:
         description: 'Schema file or folder passed to `prisma migrate diff --to-schema`.'
         type: string
         default: 'prisma/schema.prisma'
+      config_path:
+        description: 'Path to prisma.config.ts when it is not at the repository root (e.g. a monorepo package).'
+        type: string
+        default: ''
       postgres_version:
         description: 'Tag of the `postgres` Docker image (match the production major version).'
         type: string
@@ -74,15 +78,19 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Apply migrations to an empty database
-        run: ./node_modules/.bin/prisma migrate deploy
+        run: ./node_modules/.bin/prisma migrate deploy ${CONFIG_PATH:+--config "$CONFIG_PATH"}
+        env:
+          CONFIG_PATH: ${{ inputs.config_path }}
 
       - name: Check schema matches migrations
         # --exit-code: 0 = in sync, 2 = differences found, 1 = error
         run: |
           ./node_modules/.bin/prisma migrate diff \
+            ${CONFIG_PATH:+--config "$CONFIG_PATH"} \
             --from-config-datasource \
             --to-schema "${SCHEMA_PATH}" \
             --exit-code \
             || { echo "::error::Prisma schema and migrations differ: run \`prisma migrate dev\` and commit the migration."; exit 1; }
         env:
+          CONFIG_PATH: ${{ inputs.config_path }}
           SCHEMA_PATH: ${{ inputs.schema_path }}
