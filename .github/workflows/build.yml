@@ -16,10 +16,6 @@ on:
       is_build_upload:
         type: boolean
         default: true
-      env_file:
-        description: 'File copied to .env before the checks (e.g. .env.sample), for builds that validate env at load time.'
-        type: string
-        default: ''
 
 permissions:
   contents: read
@@ -33,12 +29,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Create .env from template
-        if: ${{ inputs.env_file != '' }}
-        run: cp "$ENV_FILE" .env
-        env:
-          ENV_FILE: ${{ inputs.env_file }}
 
       - name: Setup pnpm
         if: ${{ inputs.package_manager == 'pnpm' }}
